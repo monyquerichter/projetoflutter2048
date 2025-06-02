@@ -7,116 +7,145 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Simulação de estado (apenas visual por enquanto)
+    String status = "Você perdeu!"; // ou: "Você venceu!"
+    int movimentos = 2;
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Linha: Título como texto e contador de movimentos
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Jogo 2048     --",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 20),
+                  Text("Movimentos: $movimentos"),
+                ],
+              ),
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+              const SizedBox(height: 10),
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+              // Mensagem de vitória ou derrota
+              Text(
+                status,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: status.contains("venceu") ? Colors.green : Colors.red,
+                ),
+              ),
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+              const SizedBox(height: 10),
 
-  final String title;
+              // Botões de nível
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(onPressed: () {}, child: const Text("Fácil")),
+                  const SizedBox(width: 10),
+                  ElevatedButton(onPressed: () {}, child: const Text("Médio")),
+                  const SizedBox(width: 10),
+                  ElevatedButton(onPressed: () {}, child: const Text("Difícil")),
+                ],
+              ),
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+              const SizedBox(height: 30),
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+              // Tabuleiro e setas ao lado
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Tabuleiro
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      color: Colors.grey[200],
+                    ),
+                    padding: const EdgeInsets.all(4),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            _cell(""), _cell(""), _cell(""), _cell(""),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            _cell(""), _cell(""), _cell("1"), _cell(""),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            _cell(""), _cell(""), _cell(""), _cell(""),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            _cell(""), _cell(""), _cell(""), _cell("1"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+                  const SizedBox(width: 20),
 
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+                  // Botões de seta
+                  Column(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_upward),
+                        onPressed: () {},
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.arrow_forward),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_downward),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  static Widget _cell(String text) {
+    return Container(
+      width: 40,
+      height: 40,
+      margin: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        border: Border.all(),
+        color: Colors.white,
+      ),
+      child: Center(child: Text(text)),
     );
   }
 }
+
+
+
